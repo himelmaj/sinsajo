@@ -23,8 +23,8 @@ import { useRouter } from 'next/navigation'
 const data = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
+      title: "Home",
+      url: "/",
       icon: HomeIcon,
     },
 
