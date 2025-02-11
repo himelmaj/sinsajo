@@ -39,35 +39,59 @@ const SignIn = () => {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
-      email: "",
+      emailOrUsername: "",
       password: "",
       rememberMe: false
     },
   })
 
+  const isEmail = (value: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
+
   const onSubmit = async (values: z.infer<typeof SignInSchema>) => {
 
-    await signIn.email({
-      email: values.email,
-      password: values.password,
-      rememberMe: values.rememberMe,
-      fetchOptions: {
-        onResponse: () => {
-          console.log("response")
-        },
-        onRequest: () => {
-          console.log("request")
-        },
-        onError: (ctx) => {
-          toast.error(ctx.error.message)
-        },
+    const { emailOrUsername, password, rememberMe } = values
 
-        onSuccess: () => {
-          router.push("/dashboard")
+    if (isEmail(emailOrUsername)) {
+      await signIn.email({
+        email: emailOrUsername,
+        password,
+        rememberMe,
+        fetchOptions: {
+          onResponse: () => {
+            console.log("response")
+          },
+          onRequest: () => {
+            console.log("request")
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message)
+          },
+          onSuccess: () => {
+            router.push("/dashboard")
+          }
         }
-
-      },
-    })
+      })
+    } else {
+      await signIn.username({
+        username: emailOrUsername,
+        password,
+        rememberMe,
+        fetchOptions: {
+          onResponse: () => {
+            console.log("response")
+          },
+          onRequest: () => {
+            console.log("request")
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message)
+          },
+          onSuccess: () => {
+            router.push("/dashboard")
+          }
+        }
+      })
+    }
 
   }
   return (
@@ -85,12 +109,12 @@ const SignIn = () => {
 
             <FormField
               control={form.control}
-              name="email"
+              name="emailOrUsername"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  {/* <FormLabel>Email or Username</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="email@example.com" {...field} />
+                    <Input placeholder="Email or Username" {...field} />
                   </FormControl>
                   <FormMessage />
 
@@ -103,9 +127,9 @@ const SignIn = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  {/* <FormLabel>Password</FormLabel> */}
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} placeholder="Password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

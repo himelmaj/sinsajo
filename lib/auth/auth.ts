@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
 import { addAccountToSession } from "./plugin";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { multiSession } from "better-auth/plugins/multi-session";
+import { multiSession, username } from "better-auth/plugins";
 import { db } from "@/lib/db";
 import { user, verification, account, session } from "@/drizzle/schemas/auth";
 
@@ -50,5 +50,5 @@ export const auth = betterAuth({
         },
 
     },
-    plugins: [nextCookies(), multiSession(), addAccountToSession],
+    plugins: [nextCookies(), multiSession(), addAccountToSession, username()],
 });

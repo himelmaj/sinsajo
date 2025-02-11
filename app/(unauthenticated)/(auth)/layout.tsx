@@ -12,6 +12,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           width={400}
           height={400}
           className="grayscale"
+          priority
         />
       </section>
 
