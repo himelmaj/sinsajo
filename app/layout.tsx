@@ -21,7 +21,7 @@ const poppins = Poppins({
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(poppins.variable, "antialiased", "")}>
+      <body className={cn(poppins.variable, "antialiased")}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <NuqsAdapter >
             <Background />

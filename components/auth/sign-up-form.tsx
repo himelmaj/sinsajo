@@ -6,6 +6,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
+    CardFooter,
 } from "@/components/ui/card";
 
 import { Button } from "@/components/ui/button"
@@ -14,30 +15,30 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
+    // FormLabel,
     FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/ui/password-input"
 import { useForm } from "react-hook-form";
-import { signUp, signIn } from "@/lib/auth/auth-client";
+import { signUp } from "@/lib/auth/auth-client";
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpSchema } from "@/lib/validators/auth";
 import { useRouter } from "next/navigation";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
-
 import Link from 'next/link'
+import { toast } from "sonner";
+import SignSocial from "./sign-social";
 
 const SignUpForm = () => {
 
     const router = useRouter()
 
-
     const form = useForm<z.infer<typeof SignUpSchema>>({
         resolver: zodResolver(SignUpSchema),
         defaultValues: {
             name: "",
+            username: "",
             email: "",
             password: "",
             password_confirmation: ""
@@ -45,19 +46,17 @@ const SignUpForm = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof SignUpSchema>) => {
+
+        const { username, email, password, name } = values
+
         await signUp.email({
-            email: values.email,
-            password: values.password,
-            name: values.name,
+            username: username,
+            email: email,
+            password: password,
+            name: name,
             fetchOptions: {
-                onResponse: () => {
-                    console.log("response")
-                },
-                onRequest: () => {
-                    console.log("request")
-                },
                 onError: (ctx) => {
-                    console.log(ctx.error.message)
+                    toast.error(ctx.error.message)
                 },
                 onSuccess: () => {
                     router.push('/dashboard')
@@ -68,9 +67,9 @@ const SignUpForm = () => {
 
 
     return (
-        <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] md:min-w-[400px]">
+        <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] lg:max-w-[600px] md:min-w-[400px]">
             <CardHeader>
-                <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
+                <CardTitle className="text-lg md:text-xl">Sign Up to sinsajo.</CardTitle>
                 <CardDescription className="text-xs md:text-sm">
                     Enter your information to create an account
                 </CardDescription>
@@ -85,22 +84,35 @@ const SignUpForm = () => {
                             name="name"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Name</FormLabel>
+                                    {/* <FormLabel>Name</FormLabel> */}
                                     <FormControl>
-                                        <Input placeholder="John Doe" {...field} />
+                                        <Input placeholder="Full Name" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
 
+                        <FormField
+                            control={form.control}
+                            name="username"
+                            render={({ field }) => (
+                                <FormItem>
+                                    {/* <FormLabel>Username</FormLabel> */}
+                                    <FormControl>
+                                        <Input placeholder="Username" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
                         <FormField
                             control={form.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Email</FormLabel>
+                                    {/* <FormLabel>Email</FormLabel> */}
                                     <FormControl>
                                         <Input placeholder="email@example.com" {...field} />
                                     </FormControl>
@@ -114,9 +126,9 @@ const SignUpForm = () => {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Password</FormLabel>
+                                    {/* <FormLabel>Password</FormLabel> */}
                                     <FormControl>
-                                        <PasswordInput {...field} />
+                                        <PasswordInput {...field} placeholder="Password" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -128,9 +140,9 @@ const SignUpForm = () => {
                             name="password_confirmation"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Confirm Password</FormLabel>
+                                    {/* <FormLabel>Confirm Password</FormLabel> */}
                                     <FormControl>
-                                        <PasswordInput {...field} />
+                                        <PasswordInput {...field} placeholder="Confirm Password" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -143,24 +155,13 @@ const SignUpForm = () => {
                     </form>
                 </Form>
 
-
-                <div className="flex items-center gap-2 mt-2">
-                    <Button
-                        variant="outline"
-                        className="w-full gap-2"
-                        onClick={async () => {
-                            await signIn.social({
-                                provider: "github",
-                                callbackURL: `${window.location.origin}/sign-in`,
-                            });
-                        }}
-                    >
-                        <GitHubLogoIcon />
-
-                        Sign In with GitHub
-                    </Button>
-                </div>
+                <SignSocial className="mt-4" />
             </CardContent>
+            <CardFooter>
+                <CardDescription className="text-xs">
+                    By clicking continue, you acknowledge that you have read and agree to {"Sinsajo's"} <Link href="/terms-of-service" className="underline" >Terms of Service</Link>, <Link href="/policy-privacy" className=" underline">Policy Privacy</Link> and <Link href="/cookies-policy" className=" underline">Cookies Policy</Link>
+                </CardDescription>
+            </CardFooter>
         </Card>
     )
 }

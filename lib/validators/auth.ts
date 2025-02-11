@@ -2,7 +2,7 @@ import { z } from "zod"
 
 
 export const SignInSchema = z.object({
-    email: z.string().email(),
+    emailOrUsername: z.string().min(2),
     password: z.string().min(6),
     rememberMe: z.boolean().default(false)
 })
@@ -10,6 +10,7 @@ export const SignInSchema = z.object({
 
 export const SignUpSchema = z.object({
     name: z.string().min(2).max(150).regex(/^[a-zA-Z\s]*$/, "Name can only contain letters and spaces"),
+    username: z.string().min(2).max(150).regex(/^[a-zA-Z0-9]*$/, "Username can only contain letters and numbers"),
     email: z.string().email(),
     password: z.string().min(8).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, "Password must contain at least one uppercase letter, one lowercase letter, and one number"),
     password_confirmation: z.string().min(8)
