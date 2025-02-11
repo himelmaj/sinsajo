@@ -2,7 +2,7 @@
 import { signIn } from "@/lib/auth/auth-client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Discord, Spotify, GitHub, Twitch  } from "@/components/icons";
+import { Discord, Spotify, GitHub, Twitch } from "@/components/icons";
 
 interface SignSocialProps {
     className?: string
@@ -20,34 +20,42 @@ const SignSocial = ({ className }: SignSocialProps) => {
     }
 
     return (
-        <div className={cn("flex items-center gap-2 mt-2", className)}>
+        <div className={cn("flex flex-row  gap-2 mt-2", className)}>
 
             {/* github */}
 
             <Button variant="outline" className="w-full gap-2" onClick={() => signInSocial("github")}>
                 <GitHub />
-                GitHub
+                <span className="hidden md:block">
+                    GitHub
+                </span>
             </Button>
 
             {/* discord */}
 
             <Button variant="outline" className="w-full gap-2" onClick={() => signInSocial("discord")}>
                 <Discord />
-                Discord
+                <span className="hidden sm:block">
+                    Discord
+                </span>
             </Button>
 
             {/* spotify */}
 
             <Button variant="outline" className="w-full gap-2" onClick={() => signInSocial("spotify")}>
                 <Spotify />
-                Spotify
+                <span className="hidden sm:block">
+                    Spotify
+                </span>
             </Button>
 
             {/* twitch */}
 
             <Button variant="outline" className="w-full gap-2" onClick={() => signInSocial("twitch")}>
                 <Twitch />
-                Twitch
+                <span className="hidden sm:block">
+                    Twitch
+                </span>
             </Button>
 
         </div>

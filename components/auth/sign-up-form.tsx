@@ -67,7 +67,7 @@ const SignUpForm = () => {
 
 
     return (
-        <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] lg:max-w-[600px] md:min-w-[400px]">
+        <Card className="z-50 rounded-md rounded-t-none lg:max-w-[600px] lg:min-h-[350px] md:min-w-[400px] md:max-w-[500px] md:min-h-[300px] max-w-[500px]">
             <CardHeader>
                 <CardTitle className="text-lg md:text-xl">Sign Up to sinsajo.</CardTitle>
                 <CardDescription className="text-xs md:text-sm">
