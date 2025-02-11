@@ -3,8 +3,8 @@ import SignUpForm from '@/components/auth/sign-up-form'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Sign Up',
-  description: 'Sign up for an account',
+  title: 'Sign Up | Sinsajo',
+  description: 'Sign up for an account to access the platform.',
 }
 
 const SignUp = () => {
