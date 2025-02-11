@@ -1,11 +1,10 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/context/theme-provider";
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { cn } from "@/lib/utils";
 import { Toaster } from 'sonner';
 import { Poppins } from "next/font/google";
 import Background from "@/components/layout/background";
+import Providers from "@/context/providers";
 
 export const metadata: Metadata = {
   title: "Sinsajo",
@@ -22,23 +21,21 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn(poppins.variable, "antialiased")}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <NuqsAdapter >
-            <Background />
-            {children}
-            <Toaster position="bottom-right" toastOptions={{
-              className: '',
-              style: {
-                border: '1px solid hsl(var(--border))',
-                padding: '16px',
-                backgroundColor: 'hsl(var(--card))',
-                color: 'hsl(var(--card-foreground))',
-                borderRadius: '0rem',
-              },
-            }}
-            />
-          </NuqsAdapter>
-        </ThemeProvider>
+        <Providers>
+          <Background />
+          {children}
+          <Toaster position="bottom-right" toastOptions={{
+            className: '',
+            style: {
+              border: '1px solid hsl(var(--border))',
+              padding: '16px',
+              backgroundColor: 'hsl(var(--card))',
+              color: 'hsl(var(--card-foreground))',
+              borderRadius: '0rem',
+            },
+          }}
+          />
+        </Providers>
       </body>
     </html>
   );
