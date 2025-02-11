@@ -4,7 +4,17 @@ import { addAccountToSession } from "./plugin";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { multiSession, username } from "better-auth/plugins";
 import { db } from "@/lib/db";
-import { user, verification, account, session } from "@/drizzle/schemas/auth";
+import { user, verification, account, session } from "@/drizzle/schemas/main";
+import { 
+    GITHUB_CLIENT_ID, 
+    GITHUB_CLIENT_SECRET, 
+    SPOTIFY_CLIENT_ID, 
+    SPOTIFY_CLIENT_SECRET, 
+    DISCORD_CLIENT_ID, 
+    DISCORD_CLIENT_SECRET, 
+    TWITCH_CLIENT_ID, 
+    TWITCH_CLIENT_SECRET 
+} from "@/config/env";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -33,22 +43,21 @@ export const auth = betterAuth({
     },
     socialProviders: {
         github: {
-            clientId: process.env.GITHUB_CLIENT_ID || "",
-            clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+            clientId: GITHUB_CLIENT_ID,
+            clientSecret: GITHUB_CLIENT_SECRET,
         },
         spotify: {
-            clientId: process.env.SPOTIFY_CLIENT_ID || "",
-            clientSecret: process.env.SPOTIFY_CLIENT_SECRET || "",
+            clientId: SPOTIFY_CLIENT_ID,
+            clientSecret: SPOTIFY_CLIENT_SECRET,
         },
         discord: {
-            clientId: process.env.DISCORD_CLIENT_ID || "",
-            clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
+            clientId: DISCORD_CLIENT_ID,
+            clientSecret: DISCORD_CLIENT_SECRET,
         },
         twitch: {
-            clientId: process.env.TWITCH_CLIENT_ID || "",
-            clientSecret: process.env.TWITCH_CLIENT_SECRET || "",
+            clientId: TWITCH_CLIENT_ID,
+            clientSecret: TWITCH_CLIENT_SECRET,
         },
-
     },
     plugins: [nextCookies(), multiSession(), addAccountToSession, username()],
 });

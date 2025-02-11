@@ -7,12 +7,13 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex min-h-screen">
       <section className="hidden w-1/2 items-center justify-center bg-gray-100 dark:bg-black lg:flex">
         <Image
-          src="/images/4M52.gif"
+          src="/images/login-hero.gif"
           alt="Sinsajo"
           width={400}
           height={400}
           className="grayscale"
           priority
+          unoptimized
         />
       </section>
 
