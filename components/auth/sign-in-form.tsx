@@ -30,7 +30,7 @@ import { SignInSchema } from "@/lib/validators/auth";
 import Link from 'next/link'
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import SignSocial from "./sign-social";
 
 const SignIn = () => {
 
@@ -115,19 +115,19 @@ const SignIn = () => {
 
 
             <FormField
-          control={form.control}
-          name="rememberMe"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-y-0 rounded-md gap-2 py-2">
-              <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Remember me</FormLabel>
-              </div>
-            </FormItem>
-          )}
-        />
+              control={form.control}
+              name="rememberMe"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-y-0 rounded-md gap-2 py-2">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Remember me</FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
 
 
             <Link href="/sign-up" className="text-sm">{"Don't have an account? Sign Up"}</Link>
@@ -140,22 +140,8 @@ const SignIn = () => {
           </form>
         </Form>
 
-        <div className="flex items-center gap-2 mt-2">
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={async () => {
-              await signIn.social({
-                provider: "github",
-                callbackURL: `${window.location.origin}/sign-in`,
-              });
-            }}
-          >
-            <GitHubLogoIcon />
+        <SignSocial className="mt-4" />
 
-            Sign In with GitHub
-          </Button>
-        </div>
       </CardContent>
     </Card>
   )

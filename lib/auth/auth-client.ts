@@ -32,7 +32,4 @@ export const {
 	signIn,
 	signOut,
 	useSession,
-	// organization,
-	// useListOrganizations,
-	// useActiveOrganization,
 } = client;

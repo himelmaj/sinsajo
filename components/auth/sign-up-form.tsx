@@ -26,13 +26,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { SignUpSchema } from "@/lib/validators/auth";
 import { useRouter } from "next/navigation";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
-
 import Link from 'next/link'
+import { toast } from "sonner";
+import SignSocial from "./sign-social";
 
 const SignUpForm = () => {
 
     const router = useRouter()
-
 
     const form = useForm<z.infer<typeof SignUpSchema>>({
         resolver: zodResolver(SignUpSchema),
@@ -50,14 +50,8 @@ const SignUpForm = () => {
             password: values.password,
             name: values.name,
             fetchOptions: {
-                onResponse: () => {
-                    console.log("response")
-                },
-                onRequest: () => {
-                    console.log("request")
-                },
                 onError: (ctx) => {
-                    console.log(ctx.error.message)
+                    toast.error(ctx.error.message)
                 },
                 onSuccess: () => {
                     router.push('/dashboard')
@@ -68,7 +62,7 @@ const SignUpForm = () => {
 
 
     return (
-        <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] md:min-w-[400px]">
+        <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] lg:max-w-[600px] md:min-w-[400px]">
             <CardHeader>
                 <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
                 <CardDescription className="text-xs md:text-sm">
@@ -143,23 +137,7 @@ const SignUpForm = () => {
                     </form>
                 </Form>
 
-
-                <div className="flex items-center gap-2 mt-2">
-                    <Button
-                        variant="outline"
-                        className="w-full gap-2"
-                        onClick={async () => {
-                            await signIn.social({
-                                provider: "github",
-                                callbackURL: `${window.location.origin}/sign-in`,
-                            });
-                        }}
-                    >
-                        <GitHubLogoIcon />
-
-                        Sign In with GitHub
-                    </Button>
-                </div>
+                <SignSocial className="mt-4" />
             </CardContent>
         </Card>
     )
