@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button"
-import { useSession, signOut } from "@/lib/auth/auth-client";
+import { signOut } from "@/lib/auth/auth-client";
 import { useRouter } from "next/navigation"
 
 const SignOut = () => {
