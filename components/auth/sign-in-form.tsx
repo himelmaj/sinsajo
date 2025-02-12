@@ -146,8 +146,8 @@ const SignIn = () => {
                   <FormControl>
                     <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Remember me</FormLabel>
+                  <div className="space-y-1 leading-none ">
+                    <FormLabel className="cursor-pointer">Remember me</FormLabel>
                   </div>
                 </FormItem>
               )}

@@ -11,7 +11,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           alt="Sinsajo"
           width={400}
           height={400}
-          className="grayscale"
+          className="grayscale pointer-events-none"
           priority
           unoptimized
         />
