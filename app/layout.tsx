@@ -66,7 +66,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(poppins.variable, "antialiased bg-background ", Mondwest.className, NeueBitBold.className)}>
+      <body className={cn(poppins.className, "antialiased bg-background ", Mondwest.className, NeueBitBold.className)}>
         <Providers>
           <Background />
           {children}
