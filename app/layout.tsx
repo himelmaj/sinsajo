@@ -5,7 +5,8 @@ import { Toaster } from 'sonner';
 import Background from "@/components/layout/background";
 import Providers from "@/context/providers";
 import { NeueBitBold, Mondwest, poppins } from "@/lib/fonts";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react"
 export const metadata: Metadata = {
   title: "Sinsajo",
   description: "Sinsajo is a social media platform where you can share your thoughts, photos, and videos with your friends and family.",
@@ -70,6 +71,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Providers>
           <Background />
           {children}
+          <SpeedInsights />
+          <Analytics />
           <Toaster position="bottom-right" toastOptions={{
             className: '',
             style: {
