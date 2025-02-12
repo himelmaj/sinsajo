@@ -30,7 +30,7 @@ import { SignInSchema } from "@/lib/validators/auth";
 import Link from 'next/link'
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import SignSocial from "./sign-social";
 
 const SignIn = () => {
 
@@ -39,39 +39,63 @@ const SignIn = () => {
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
-      email: "",
+      emailOrUsername: "",
       password: "",
       rememberMe: false
     },
   })
 
+  const isEmail = (value: string) => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
+
   const onSubmit = async (values: z.infer<typeof SignInSchema>) => {
 
-    await signIn.email({
-      email: values.email,
-      password: values.password,
-      rememberMe: values.rememberMe,
-      fetchOptions: {
-        onResponse: () => {
-          console.log("response")
-        },
-        onRequest: () => {
-          console.log("request")
-        },
-        onError: (ctx) => {
-          toast.error(ctx.error.message)
-        },
+    const { emailOrUsername, password, rememberMe } = values
 
-        onSuccess: () => {
-          router.push("/dashboard")
+    if (isEmail(emailOrUsername)) {
+      await signIn.email({
+        email: emailOrUsername,
+        password,
+        rememberMe,
+        fetchOptions: {
+          onResponse: () => {
+            console.log("response")
+          },
+          onRequest: () => {
+            console.log("request")
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message)
+          },
+          onSuccess: () => {
+            router.push("/dashboard")
+          }
         }
-
-      },
-    })
+      })
+    } else {
+      await signIn.username({
+        username: emailOrUsername,
+        password,
+        rememberMe,
+        fetchOptions: {
+          onResponse: () => {
+            console.log("response")
+          },
+          onRequest: () => {
+            console.log("request")
+          },
+          onError: (ctx) => {
+            toast.error(ctx.error.message)
+          },
+          onSuccess: () => {
+            router.push("/dashboard")
+          }
+        }
+      })
+    }
 
   }
   return (
-    <Card className="z-50 rounded-md rounded-t-none lg:min-w-[600px] lg:min-h-[350px] md:min-w-[400px] md:min-h-[300px]">
+    <Card className="z-50 rounded-md rounded-t-none lg:max-w-[600px] lg:min-w-[500px] lg:min-h-[350px] md:min-w-[400px] md:max-w-[500px] md:min-h-[300px] max-w-[500px]">
       <CardHeader>
         <CardTitle className="text-lg md:text-xl">Sign Up</CardTitle>
         <CardDescription className="text-xs md:text-sm">
@@ -85,12 +109,12 @@ const SignIn = () => {
 
             <FormField
               control={form.control}
-              name="email"
+              name="emailOrUsername"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  {/* <FormLabel>Email or Username</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="email@example.com" {...field} />
+                    <Input placeholder="Email or Username" {...field} />
                   </FormControl>
                   <FormMessage />
 
@@ -103,9 +127,9 @@ const SignIn = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  {/* <FormLabel>Password</FormLabel> */}
                   <FormControl>
-                    <PasswordInput {...field} />
+                    <PasswordInput {...field} placeholder="Password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,19 +139,19 @@ const SignIn = () => {
 
 
             <FormField
-          control={form.control}
-          name="rememberMe"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-y-0 rounded-md gap-2 py-2">
-              <FormControl>
-                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>Remember me</FormLabel>
-              </div>
-            </FormItem>
-          )}
-        />
+              control={form.control}
+              name="rememberMe"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-y-0 rounded-md gap-2 py-2">
+                  <FormControl>
+                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                  <div className="space-y-1 leading-none ">
+                    <FormLabel className="cursor-pointer">Remember me</FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
 
 
             <Link href="/sign-up" className="text-sm">{"Don't have an account? Sign Up"}</Link>
@@ -140,22 +164,8 @@ const SignIn = () => {
           </form>
         </Form>
 
-        <div className="flex items-center gap-2 mt-2">
-          <Button
-            variant="outline"
-            className="w-full gap-2"
-            onClick={async () => {
-              await signIn.social({
-                provider: "github",
-                callbackURL: `${window.location.origin}/sign-in`,
-              });
-            }}
-          >
-            <GitHubLogoIcon />
+        <SignSocial className="mt-4" />
 
-            Sign In with GitHub
-          </Button>
-        </div>
       </CardContent>
     </Card>
   )

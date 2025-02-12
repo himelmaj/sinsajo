@@ -14,7 +14,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-
+  useSidebar
 } from "@/components/ui/sidebar"
 
 
@@ -23,8 +23,8 @@ import { useRouter } from 'next/navigation'
 const data = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/dashboard",
+      title: "Home",
+      url: "/",
       icon: HomeIcon,
     },
 
@@ -50,10 +50,14 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const router = useRouter()
+
+  const { state: sideBarState } = useSidebar()
+
+
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader id="website-title">
-        Sinsajo
+      <SidebarHeader className="flex items-center justify-center h-12 font-extrabold text-xl">
+      {sideBarState === "expanded" && "Sinsajo"}
       </SidebarHeader>
       <SidebarContent>
 

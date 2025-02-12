@@ -1,17 +1,20 @@
 import { betterAuth } from "better-auth";
-// import {
-//     bearer,
-//     multiSession,
-//     oneTap,
-//     oAuthProxy,
-// } from "better-auth/plugins";
-
 import { nextCookies } from "better-auth/next-js";
-// import { addAccountToSession } from "./plugin";
+import { addAccountToSession } from "./plugin";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { multiSession, username } from "better-auth/plugins";
 import { db } from "@/lib/db";
-import { user, verification, account, session } from "@/drizzle/schemas/auth";
-
+import { user, verification, account, session } from "@/drizzle/schemas/main";
+import { 
+    GITHUB_CLIENT_ID, 
+    GITHUB_CLIENT_SECRET, 
+    SPOTIFY_CLIENT_ID, 
+    SPOTIFY_CLIENT_SECRET, 
+    DISCORD_CLIENT_ID, 
+    DISCORD_CLIENT_SECRET, 
+    TWITCH_CLIENT_ID, 
+    TWITCH_CLIENT_SECRET 
+} from "@/config/env";
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -31,41 +34,30 @@ export const auth = betterAuth({
     },
     account: {
         accountLinking: {
-            trustedProviders: ["google", "github"],
+            enabled: true,
+            trustedProviders: ["spotify", "discord", "github", "twitch"],
         },
     },
     emailAndPassword: {
         enabled: true,
     },
     socialProviders: {
-        // facebook: {
-        //     clientId: process.env.FACEBOOK_CLIENT_ID || "",
-        //     clientSecret: process.env.FACEBOOK_CLIENT_SECRET || "",
-        // },
         github: {
-            clientId: process.env.GITHUB_CLIENT_ID || "",
-            clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+            clientId: GITHUB_CLIENT_ID,
+            clientSecret: GITHUB_CLIENT_SECRET,
         },
-        // google: {
-        //     clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "",
-        //     clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-        // },
-        // discord: {
-        //     clientId: process.env.DISCORD_CLIENT_ID || "",
-        //     clientSecret: process.env.DISCORD_CLIENT_SECRET || "",
-        // },
-        // microsoft: {
-        //     clientId: process.env.MICROSOFT_CLIENT_ID || "",
-        //     clientSecret: process.env.MICROSOFT_CLIENT_SECRET || "",
-        // },
-        // twitch: {
-        //     clientId: process.env.TWITCH_CLIENT_ID || "",
-        //     clientSecret: process.env.TWITCH_CLIENT_SECRET || "",
-        // },
-        // twitter: {
-        //     clientId: process.env.TWITTER_CLIENT_ID || "",
-        //     clientSecret: process.env.TWITTER_CLIENT_SECRET || "",
-        // },
+        spotify: {
+            clientId: SPOTIFY_CLIENT_ID,
+            clientSecret: SPOTIFY_CLIENT_SECRET,
+        },
+        discord: {
+            clientId: DISCORD_CLIENT_ID,
+            clientSecret: DISCORD_CLIENT_SECRET,
+        },
+        twitch: {
+            clientId: TWITCH_CLIENT_ID,
+            clientSecret: TWITCH_CLIENT_SECRET,
+        },
     },
-    plugins: [nextCookies()]
+    plugins: [nextCookies(), multiSession(), addAccountToSession, username()],
 });

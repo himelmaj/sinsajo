@@ -3,6 +3,7 @@ import { pgTable, text, integer, timestamp, boolean } from "drizzle-orm/pg-core"
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
 	name: text('name').notNull(),
+	username: text('username').unique().$defaultFn(() => `user_${crypto.randomUUID().replace(/-/g, '')}`),
 	email: text('email').notNull().unique(),
 	emailVerified: boolean('emailVerified').notNull(),
 	image: text('image'),

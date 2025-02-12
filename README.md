@@ -2,7 +2,7 @@
 
 Sinsajo is a Twitter clone, a modern alternative to the social network, built with cutting-edge technologies to provide a fast and smooth experience.
 
-![Sinsajo Screenshot](public/screenshot.webp)
+![Sinsajo Screenshot](public/screenshot.jpg)
 
 ## Technologies
 
