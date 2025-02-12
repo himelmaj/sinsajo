@@ -2,9 +2,9 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Toaster } from 'sonner';
-import { Poppins } from "next/font/google";
 import Background from "@/components/layout/background";
 import Providers from "@/context/providers";
+import { NeueBitBold, Mondwest, poppins } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Sinsajo",
@@ -57,16 +57,16 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-  variable: "--font-poppins",
-});
+// const poppins = Poppins({
+//   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+//   subsets: ["latin"],
+//   variable: "--font-poppins",
+// });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(poppins.variable, "antialiased bg-background ")}>
+      <body className={cn(poppins.variable, "antialiased bg-background ", Mondwest.className, NeueBitBold.className)}>
         <Providers>
           <Background />
           {children}
