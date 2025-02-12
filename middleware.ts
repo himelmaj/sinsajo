@@ -1,15 +1,19 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { betterFetch } from "@better-fetch/fetch";
-import { Session } from "@/lib/auth/auth-types";
+// import { betterFetch } from "@better-fetch/fetch";
+// import { Session } from "@/lib/auth/auth-types";
+
+import { getSessionCookie } from "better-auth";
 
 export default async function authMiddleware(request: NextRequest) {
 
-	const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
-		baseURL: request.nextUrl.origin,
-		headers: {
-			cookie: request.headers.get("cookie") || "",
-		},
-	});
+	// const { data: session } = await betterFetch<Session>("/api/auth/get-session", {
+	// 	baseURL: request.nextUrl.origin,
+	// 	headers: {
+	// 		cookie: request.headers.get("cookie") || "",
+	// 	},
+	// });
+
+	const session = getSessionCookie(request);
 
 	const { pathname } = request.nextUrl;
 
